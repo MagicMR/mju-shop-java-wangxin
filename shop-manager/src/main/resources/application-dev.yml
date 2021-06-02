@@ -1,0 +1,38 @@
+# 开发环境
+server:
+  port: 9090
+  servlet:
+    context-path: /shop-manager
+
+# Spring
+spring:
+#  数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/magicmr_shop?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    #  指定 druid 连接池以及 druid 连接池配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 1     # 初始连接数
+      max-active: 20      # 最大连接数
+      max-idle: 20        # 最大空闲数
+      min-idle: 1         # 最小空闲数
+      max-wait: 60000     # 最长等待时间
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+# MyBatis-plus
+mybatis-plus:
+#  配置别名
+  type-aliases-package: com.hellowx.manager.pojo
+#  配置别名
+  mapper-locations: classpath:/mapper/*.xml
+
+# Mybatis Sql 打印
+logging:
+  level:
+    com.hellowx.manager.mapper: debug

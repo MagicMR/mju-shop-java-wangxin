@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellowx.mapper.GoodsCategoryMapper">
+
+    <sql id="goodsCategory">
+        SELECT
+            id,
+            `name`,
+            mobile_name,
+            parent_id,
+            parent_id_path,
+            `level`,
+            sort_order,
+            is_show,
+            image,
+            is_hot,
+            cat_group,
+            commission_rate
+        FROM
+            t_goods_category
+    </sql>
+    <insert id="insertOne">
+        insert into
+            t_goods_category
+        values
+               (#{id},#{name},#{mobileName},#{parentId},#{parentIdPath},#{level},#{sortOrder},#{isShow},#{image},#{isHot},#{catGroup},#{commissionRate})
+    </insert>
+
+    <delete id="deleteById">
+        delete from t_goods_category where id = #{id};
+    </delete>
+
+    <select id="selectGoodsCategoryByLevel" resultType="com.hellowx.pojo.GoodsCategory">
+        <include refid="goodsCategory"/>
+        <trim prefix="where" prefixOverrides="and">
+            <if test="level != null and level != 0">
+                `level` = #{level}
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectGoodsCategoryByParentId" resultType="com.hellowx.pojo.GoodsCategory">
+        <include refid="goodsCategory"/>
+        <where>
+            <if test="parentId != null and parentId !=  0 ">
+                and parent_id = #{parentId}
+            </if>
+        </where>
+    </select>
+    <select id="selectGoodsCategoryByParentIdAndLevel" resultType="com.hellowx.pojo.GoodsCategory">
+        <include refid="goodsCategory"/>
+        <trim prefix="where" prefixOverrides="and">
+            <if test="parentId != null and parentId >= 0">
+                parent_id = #{parentId}
+            </if>
+            <if test="level != null and level >=0">
+                and level = #{level}
+            </if>
+        </trim>
+    </select>
+</mapper>
